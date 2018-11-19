@@ -4,10 +4,7 @@ const FinishedTask = db.FinishedTask;
 
 module.exports = {
     getAll,
-    getById,
-    create,
-    update,
-    delete: _delete
+    getById
 };
 
 async function getAll() {
