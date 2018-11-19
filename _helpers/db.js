@@ -9,5 +9,5 @@ module.exports = {
     Order: require('../orders/order.model'),
     Task: require('../tasks/task.model'),
     FinishedTask: require('../finished-tasks/finished-task.model'),
-    Roles: require('../roles/roles.model')
+    Role: require('../roles/role.model')
 };
