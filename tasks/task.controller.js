@@ -25,7 +25,7 @@ function create(req, res, next) {
 
 function getById(req, res, next) {
     taskService.getById(req.params.id)
-        .then(tasks => tasks ? res.json(user) : res.sendStatus(404))
+        .then(tasks => tasks ? res.json(tasks) : res.sendStatus(404))
         .catch(err => next(err));
 }
 
