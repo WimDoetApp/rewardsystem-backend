@@ -4,7 +4,8 @@ const Task = db.Task;
 
 module.exports = {
     getAll,
-    getById
+    getById,
+    delete: _delete
 };
 
 async function getAll() {
@@ -15,3 +16,6 @@ async function getById(id) {
     return await Task.findById(id).select('-hash');
 }
 
+async function _delete(id) {
+    await Task.findByIdAndRemove(id);
+}
