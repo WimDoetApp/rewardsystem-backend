@@ -7,7 +7,8 @@ const schema = new Schema({
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     roles: { type: [String], required: true},
-    dateCreated: { type: Date, default: Date.now }
+    dateCreated: { type: Date, default: Date.now },
+    points: {type: Number, required: true}
 });
 
 schema.set('toJSON', { virtuals: true });

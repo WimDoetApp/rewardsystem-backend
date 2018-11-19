@@ -6,7 +6,7 @@ const schema = new Schema({
     date: {type: Date, required: true},
     userKey: {type: String, required: true},
     taskKey: {type: String, required: true},
-    approved: {type: Boolean}
+    approved: {type: Boolean, required: true}
 });
 
 schema.set('toJSON', { virtuals: true });
