@@ -5,6 +5,7 @@ const Task = db.Task;
 module.exports = {
     getAll,
     getById,
+    create,
     delete: _delete
 };
 
@@ -14,6 +15,11 @@ async function getAll() {
 
 async function getById(id) {
     return await Task.findById(id).select('-hash');
+}
+
+async function create(userParam) {
+    const task = new Task(userParam);
+    await task.save();
 }
 
 async function _delete(id) {

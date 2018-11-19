@@ -4,6 +4,7 @@ const taskService = require('./task.service');
 
 // routes
 router.get('/', getAll);
+router.post('/', create)
 router.get('/:id', getById);
 router.delete('/:id', _delete);
 
@@ -12,6 +13,12 @@ module.exports = router;
 function getAll(req, res, next) {
     taskService.getAll()
         .then(tasks => res.json(tasks))
+        .catch(err => next(err));
+}
+
+function create(req, res, next) {
+    taskService.create(req.body)
+        .then(() => res.json({}))
         .catch(err => next(err));
 }
 
