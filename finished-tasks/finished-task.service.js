@@ -1,4 +1,3 @@
-const config = require('config.json');
 const db = require('_helpers/db');
 const FinishedTask = db.FinishedTask;
 
@@ -14,21 +13,22 @@ async function getAll() {
     return await FinishedTask.find().select('-hash');
 }
 
-async function create(userParam) {
-    const finishedTask = new FinishedTask(userParam);
-    await finishedTask.save();
-}
-
 async function getById(id) {
     return await FinishedTask.findById(id).select('-hash');
 }
 
-async function update(id, userParam) {
+async function create(finishedTaskParam) {
+    const finishedTask = new FinishedTask(finishedTaskParam);
+
+    await finishedTask.save();
+}
+
+async function update(id, finishedTaskParam) {
     const finishedTask = await FinishedTask.findById(id);
 
     if (!finishedTask) throw 'FinishedTask not found';
 
-    Object.assign(finishedTask, userParam);
+    Object.assign(finishedTask, finishedTaskParam);
 
     await finishedTask.save();
 }

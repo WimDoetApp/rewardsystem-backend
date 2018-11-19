@@ -8,6 +8,6 @@ module.exports = {
     Reward: require('../rewards/reward.model'),
     Order: require('../orders/order.model'),
     Task: require('../tasks/task.model'),
-    FinishedTask: require('../finishedtasks/finishedtask.model'),
+    FinishedTask: require('../finished-tasks/finished-task.model'),
     Roles: require('../roles/roles.model')
 };

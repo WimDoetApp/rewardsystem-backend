@@ -17,8 +17,8 @@ app.use(jwt());
 app.use('/users', require('./users/users.controller'));
 app.use('/rewards', require('./rewards/rewards.controller'));
 app.use('/orders', require('./orders/orders.controller'));
-app.use('/tasks', require('./tasks/task.controller'));
-app.use('/finishedtasks', require('./finishedtasks/finishedtask.controller'));
+app.use('/tasks', require('./tasks/tasks.controller'));
+app.use('/finishedtasks', require('./finished-tasks/finished-tasks.controller'));
 app.use('/roles', require('./roles/roles.controller'));
 
 // global error handler
