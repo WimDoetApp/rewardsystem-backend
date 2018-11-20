@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const db = require('_helpers/db');
 const User = db.User;
+const Role = db.Role;
 
 module.exports = {
     authenticate,
@@ -17,7 +18,8 @@ async function authenticate({ username, password }) {
     const user = await User.findOne({ username });
     if (user && bcrypt.compareSync(password, user.hash)) {
         const { hash, ...userWithoutHash } = user.toObject();
-        const token = jwt.sign({ sub: user.id }, config.secret);
+        permissions = await getUserPermissions(user.roles);
+        const token = jwt.sign({ sub: user.id, permissions: permissions }, config.secret);
         return {
             ...userWithoutHash,
             token
@@ -25,6 +27,36 @@ async function authenticate({ username, password }) {
     }
 }
 
+//permissions van de user ophalen
+async function getUserPermissions(roles){
+    permissions = [];
+    userRoles = [];
+
+    for(let role of roles){
+        userRoles.push(await getPermissionsByRole(role));
+    }
+
+    for(let userRole of userRoles){
+        for(let permission of userRole.permissions){
+            permissions.push(permission);
+        }
+    }
+
+    return removeDuplicates(permissions);
+}
+
+function removeDuplicates(arr){
+    let unique_array = arr.filter(function(elem, index, self) {
+        return index == self.indexOf(elem);
+    });
+    return unique_array
+}
+
+async function getPermissionsByRole(role){
+    return await Role.findOne({ name : role}).select('permissions -_id');
+}
+
+//database functies
 async function getAll() {
     return await User.find().select('-hash');
 }

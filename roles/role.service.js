@@ -3,7 +3,7 @@ const Role = db.Role;
 
 module.exports = {
     getAll,
-    create
+    create,
 };
 
 async function getAll() {
@@ -14,4 +14,8 @@ async function create(roleParam) {
     const role = new Role(roleParam);
 
     await role.save();
+}
+
+async function test(){
+    return await Role.find({ name: "WERKNEMER"}).select('-hash');
 }
