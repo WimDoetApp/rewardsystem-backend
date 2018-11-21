@@ -19,23 +19,27 @@ async function getById(id) {
 }
 
 async function create(rewardParam) {
-    const reward = new Reward(rewardParam);
+    if (jwtHelper.getPermissions().includes('CREATE')) {
+        const reward = new Reward(rewardParam);
 
-    await reward.save();
+        await reward.save();
+    }
 }
 
 async function update(id, rewardParam) {
-    const reward = await Reward.findById(id);
+    if (jwtHelper.getPermissions().includes('WRITE')) {
+        const reward = await Reward.findById(id);
 
-    if (!reward) throw 'Reward not found';
+        if (!reward) throw 'Reward not found';
 
-    Object.assign(reward, rewardParam);
+        Object.assign(reward, rewardParam);
 
-    await reward.save();
+        await reward.save();
+    }
 }
 
 async function _delete(id) {
-    if(jwtHelper.getPermissions().includes('DELETE')){
+    if (jwtHelper.getPermissions().includes('DELETE')) {
         await Reward.findByIdAndRemove(id);
     }
 }

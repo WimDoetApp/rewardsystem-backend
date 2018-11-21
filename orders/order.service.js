@@ -1,5 +1,6 @@
 const db = require('_helpers/db');
 const Order = db.Order;
+const jwtHelper = require('../_helpers/jwt');
 
 module.exports = {
     getAll,
@@ -18,21 +19,27 @@ async function getById(id) {
 }
 
 async function create(orderParam) {
-    const order = new Order(orderParam);
+    if (jwtHelper.getPermissions().includes('ORDER')) {
+        const order = new Order(orderParam);
 
-    await order.save();
+        await order.save();
+    }
 }
 
 async function update(id, orderParam) {
-    const order = await Order.findById(id);
+    if (jwtHelper.getPermissions().includes('WRITE')) {
+        const order = await Order.findById(id);
 
-    if (!order) throw 'Order not found';
+        if (!order) throw 'Order not found';
 
-    Object.assign(order, orderParam);
+        Object.assign(order, orderParam);
 
-    await order.save();
+        await order.save();
+    }
 }
 
 async function _delete(id) {
-    await Order.findByIdAndRemove(id);
+    if (jwtHelper.getPermissions().includes('DELETE')) {
+        await Order.findByIdAndRemove(id);
+    }
 }

@@ -1,5 +1,6 @@
 const db = require('_helpers/db');
 const FinishedTask = db.FinishedTask;
+const jwtHelper = require('../_helpers/jwt');
 
 module.exports = {
     getAll,
@@ -18,21 +19,27 @@ async function getById(id) {
 }
 
 async function create(finishedTaskParam) {
-    const finishedTask = new FinishedTask(finishedTaskParam);
+    if (jwtHelper.getPermissions().includes('ORDER')) {
+        const finishedTask = new FinishedTask(finishedTaskParam);
 
-    await finishedTask.save();
+        await finishedTask.save();
+    }
 }
 
 async function update(id, finishedTaskParam) {
-    const finishedTask = await FinishedTask.findById(id);
+    if (jwtHelper.getPermissions().includes('WRITE')) {
+        const finishedTask = await FinishedTask.findById(id);
 
-    if (!finishedTask) throw 'FinishedTask not found';
+        if (!finishedTask) throw 'FinishedTask not found';
 
-    Object.assign(finishedTask, finishedTaskParam);
+        Object.assign(finishedTask, finishedTaskParam);
 
-    await finishedTask.save();
+        await finishedTask.save();
+    }
 }
 
 async function _delete(id) {
-    await FinishedTask.findByIdAndRemove(id);
+    if (jwtHelper.getPermissions().includes('DELETE')) {
+        await FinishedTask.findByIdAndRemove(id);
+    }
 }
