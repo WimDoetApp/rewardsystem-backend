@@ -2,9 +2,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const schema = new Schema({
-    rewardKey: { type: String, required: true },
+    reward: {
+        name: { type: String, required: true },
+        points: { type: Number, required: true }
+    },
     userKey: { type: String, required: true },
-    date: { type: Date, required: true }
+    date: { type: Date, default: Date.now }
 });
 
 schema.set('toJSON', { virtuals: true });

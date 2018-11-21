@@ -28,16 +28,16 @@ async function authenticate({ username, password }) {
 }
 
 //permissions van de user ophalen
-async function getUserPermissions(roles){
+async function getUserPermissions(roles) {
     permissions = [];
     userRoles = [];
 
-    for(let role of roles){
+    for (let role of roles) {
         userRoles.push(await getPermissionsByRole(role));
     }
 
-    for(let userRole of userRoles){
-        for(let permission of userRole.permissions){
+    for (let userRole of userRoles) {
+        for (let permission of userRole.permissions) {
             permissions.push(permission);
         }
     }
@@ -45,15 +45,15 @@ async function getUserPermissions(roles){
     return removeDuplicates(permissions);
 }
 
-function removeDuplicates(arr){
-    let unique_array = arr.filter(function(elem, index, self) {
+function removeDuplicates(arr) {
+    let unique_array = arr.filter(function (elem, index, self) {
         return index == self.indexOf(elem);
     });
     return unique_array
 }
 
-async function getPermissionsByRole(role){
-    return await Role.findOne({ name : role}).select('permissions -_id');
+async function getPermissionsByRole(role) {
+    return await Role.findOne({ name: role }).select('permissions -_id');
 }
 
 //database functies
@@ -85,18 +85,8 @@ async function create(userParam) {
 async function update(id, userParam) {
     const user = await User.findById(id);
 
-    // validate
     if (!user) throw 'User not found';
-    if (user.username !== userParam.username && await User.findOne({ username: userParam.username })) {
-        throw 'Username "' + userParam.username + '" is already taken';
-    }
 
-    // hash password if it was entered
-    if (userParam.password) {
-        userParam.hash = bcrypt.hashSync(userParam.password, 10);
-    }
-
-    // copy userParam properties to user
     Object.assign(user, userParam);
 
     await user.save();
