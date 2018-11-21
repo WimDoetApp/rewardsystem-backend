@@ -1,5 +1,6 @@
 const db = require('_helpers/db');
 const Reward = db.Reward;
+const jwtHelper = require('../_helpers/jwt');
 
 module.exports = {
     getAll,
@@ -34,5 +35,7 @@ async function update(id, rewardParam) {
 }
 
 async function _delete(id) {
-    await Reward.findByIdAndRemove(id);
+    if(jwtHelper.getPermissions().includes('DELETE')){
+        await Reward.findByIdAndRemove(id);
+    }
 }

@@ -2,7 +2,12 @@ const expressJwt = require('express-jwt');
 const config = require('config.json');
 const userService = require('../users/user.service');
 
-module.exports = jwt;
+module.exports = {
+    jwt,
+    getPermissions,
+};
+
+global.permissions = [];
 
 function jwt() {
     const secret = config.secret;
@@ -17,6 +22,7 @@ function jwt() {
 
 async function isRevoked(req, payload, done) {
     const user = await userService.getById(payload.sub);
+    global.permissions = payload.permissions;
 
     // revoke token if user no longer exists
     if (!user) {
@@ -25,3 +31,8 @@ async function isRevoked(req, payload, done) {
 
     done();
 };
+
+function getPermissions(){
+    console.log(global.permissions);
+    return global.permissions;
+}
