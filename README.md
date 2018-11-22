@@ -6,3 +6,6 @@ http://jasonwatmore.com/post/2018/06/14/nodejs-mongodb-simple-api-for-authentica
 ## Development server
 
 Run `npm start` for a dev server. API requires the use of an appropriate header.
+
+## Web server
+API is deployed on https://murmuring-escarpment-16996.herokuapp.com/
