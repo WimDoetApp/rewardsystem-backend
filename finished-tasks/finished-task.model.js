@@ -8,7 +8,8 @@ const schema = new Schema({
         points: {type: Number, required: true}
     },
     explanation: {type: String, required: true},
-    isApproved: {type: Boolean, required: true}
+    isApproved: {type: Boolean, required: false},
+    date: {type: Date, default: Date.now}
 });
 
 schema.set('toJSON', { virtuals: true });
