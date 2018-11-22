@@ -25,7 +25,13 @@ app.use('/roles', require('./roles/roles.controller'));
 app.use(errorHandler);
 
 // start server
-const port = process.env.NODE_ENV === 'production' ? 80 : 4000;
-const server = app.listen(port, function () {
+//const port = process.env.NODE_ENV === 'production' ? 80 : 4000;
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 4000;
+}
+
+app.listen(port);
+/* const server = app.listen(port, function () {
     console.log('Server listening on port ' + port);
-});
+}); */
