@@ -5,7 +5,7 @@ const finishedTaskService = require('./finished-task.service');
 // routes
 router.get('/', getAll);
 router.get('/:id', getById);
-router.get('/user/:id', getByUserId);
+router.get('/user/:userKey', getByUserId);
 router.post('/', create);
 router.put('/:id', update);
 router.delete('/:id', _delete);
