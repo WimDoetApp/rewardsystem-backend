@@ -5,6 +5,7 @@ const orderService = require('./order.service');
 // routes
 router.get('/', getAll);
 router.get('/:id', getById);
+router.get('/user/:userKey', getByUserId);
 router.post('/', create);
 router.put('/:id', update);
 router.delete('/:id', _delete);
@@ -22,6 +23,13 @@ function getById(req, res, next) {
         .then(order => order ? res.json(order) : res.sendStatus(404))
         .catch(err => next(err));
 }
+
+function getByUserId(req, res, next) {
+    orderService.getByUserId(req.params.userKey)
+        .then(orders => orders ? res.json(orders) : res.sendStatus(404))
+        .catch(err => next(err));
+}
+
 
 function create(req, res, next) {
     orderService.create(req.body)

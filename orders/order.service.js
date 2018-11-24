@@ -5,6 +5,7 @@ const jwtHelper = require('../_helpers/jwt');
 module.exports = {
     getAll,
     getById,
+    getByUserId,
     create,
     update,
     delete: _delete
@@ -16,6 +17,10 @@ async function getAll() {
 
 async function getById(id) {
     return await Order.findById(id).select('-hash');
+}
+
+async function getByUserId(userId) {
+    return await Order.find({userKey: userId}).select('-hash');
 }
 
 async function create(orderParam) {
